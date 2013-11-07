@@ -1,0 +1,86 @@
+{% extends "JSDefaultBundle:Default:catalog.html.twig" %}
+{% block left_menu %}
+{% endblock %}
+{% block main %}
+<div class="span80">
+    <div class="row pl2_5">
+        {% if productIds %}
+        <table class="table">
+            <thead>
+                <th>#</th>
+                <th>Картинка</th>
+                <th>Модель</th>
+                <th>Цена в BYR</th>
+                <th>Цена в USD</th>
+                <th>Цена в RUB</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% set byr = 0 %}
+                {% set usd = 0 %}
+                {% set rub = 0 %}
+                {% for product in productArray %}
+                    {% set byr = byr + product.category.byrPrice %}
+                    {% set usd = usd + product.category.usdPrice %}
+                    {% set rub = rub + product.category.rubPrice%}
+                    <tr class="prod{{ product.id }}{{ loop.index }}">
+                        <td>{{ loop.index }}</td>
+                        <td><img class="w15" src="{{ asset(public~product.image) }}"/></td>
+                        <td>{{ product.category }}</td>
+                        <td>{{ product.category.byrPrice }}</td>
+                        <td>{{ product.category.usdPrice }}</td>
+                        <td>{{ product.category.rubPrice }}</td>
+                        <td><a href="{{ url('default_remove_from_cart',{"id": product.id}) }}" class="btn btn-mini btn-danger">Удалить из корзины</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <th></th>
+                <th></th>
+                <th>Итого</th>
+                <th>{{ byr }}</th>
+                <th>{{ usd }}</th>
+                <th>{{ rub }}</th>
+                <th></th>
+            </tfoot>
+        </table>
+        <form class="offset2" action="{{ url('default_view_cart') }}" method="post">
+            {{ form_errors(form) }}
+            <div class="row">
+                <div class="span20">{{ form_label(form.customerName) }}</div>
+                <div class="span50">{{ form_widget(form.customerName) }}</div>
+            </div>
+            <div class="row">
+                <div class="span20">{{ form_label(form.customerEmail) }}</div>
+                <div class="span50">{{ form_widget(form.customerEmail) }}</div>
+            </div>
+            <div class="row">
+                <div class="span20">{{ form_label(form.customerTelephone) }}</div>
+                <div class="span50">{{ form_widget(form.customerTelephone) }}</div>
+            </div>
+            <div class="row">
+                <div class="span20">{{ form_label(form.customerCountry) }}</div>
+                <div class="span50">{{ form_widget(form.customerCountry) }}</div>
+            </div>
+            <div class="row">
+                <div class="span20">{{ form_label(form.customerCity) }}</div>
+                <div class="span50">{{ form_widget(form.customerCity) }}</div>
+            </div>
+            <div class="row">
+                <div class="span20">{{ form_label(form.customerAddress) }}</div>
+                <div class="span50">{{ form_widget(form.customerAddress) }}</div>
+            </div>
+            <div class="row">
+                <div class="span50">{{ form_widget(form.buy,{'label': 'Заказать', 'attr': {'class': 'btn btn-large btn-success'} }) }}</div>
+            </div>
+            {{ form_rest(form) }}
+        </form>
+    {% else %}
+        <div class="center" style="height: 200px;">
+            <h3>Ваша корзина пуста, пожалуйста, <a href="{{ url('default_catalog') }}">сделайте заказ</a></h3>
+        </div>
+    {% endif %}
+    </div>
+</div>
+
+{% endblock %}

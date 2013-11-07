@@ -1,0 +1,9 @@
+<ul class="nav">
+    {% for category in categories if category.products | length%}
+        <li class="offset1 menu-item mt en-text">
+            <a href="{{ url('default_view_product',{ 'slug': category.slug }) }}">
+                {{ category.name|upper }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>

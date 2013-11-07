@@ -1,0 +1,30 @@
+<h2>Новый заказ {{ order.createdAt | date }}</h2>
+<ul>
+    <li>Имя: {{ order.customerName }}</li>
+    <li>Электронная почта: {{ order.customerEmail }}</li>
+    <li>Телефон: {{ order.customerTelephone }}</li>
+    <li>Страна: {{ order.customerCountry }}</li>
+    <li>Город: {{ order.customerCity}}</li>
+    <li>Адрес: {{ order.customerAddress }}</li>
+</ul>
+<h3>Заказал:</h3>
+<table>
+    <tr>
+        <th>#&nbsp;</th>
+        <th>Категория&nbsp;</th>
+        <th>Артикул&nbsp;</th>
+        <th>BYR&nbsp;</th>
+        <th>USD&nbsp;</th>
+        <th>RUB&nbsp;</th>
+    </tr>
+{% for product in products  %}
+    <tr>
+        <td>{{ loop.index }}&nbsp;</td>
+        <td>{{ product.category }}&nbsp;</td>
+        <td>{{ product.article }}&nbsp;</td>
+        <td>{{ product.category.byrPrice }}&nbsp;</td>
+        <td>{{ product.category.usdPrice }}&nbsp;</td>
+        <td>{{ product.category.rubPrice }}&nbsp;</td>
+    </tr>
+{% endfor %}
+<table>

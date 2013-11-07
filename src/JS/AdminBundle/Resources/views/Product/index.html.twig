@@ -1,0 +1,49 @@
+{% extends 'JSAdminBundle:Default:index.html.twig' %}
+{% block header %}
+    <h1>Список товаров</h1>
+{% endblock %}
+{% block list %}
+<div class="row">
+    <form class="form-inline ml2" action="{{ url('admin_product_index') }}" method="post">
+        {{ form_widget(form.category) }}
+        {{ form_widget(form.article) }}
+        {{ form_widget(form.filter,  {'label': 'Фильтр', 'attr': {'class': 'btn btn-primary'} }) }}
+        {{ form_widget(form.reset,  {'label': 'Сбросить', 'attr': {'class': 'btn btn-warning'} }) }}
+        {{ form_rest(form) }}
+    </form>
+</div>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Картинка</th>
+            <th>Категория</th>
+            <th>Артикул</th>
+            <th>Главная</th>
+            <th>Скрыт</th>
+            <th></th>
+        </tr>
+
+        {% for item in all %}
+            <tr>
+                <td><img style="width: 150px;" src="{{ asset(public~item.image) }}" /></td>
+                <td>{{ item.category }}</td>
+                <td>{{ item.article }}</td>
+                <td>
+                    {% if item.isMain %}
+                        <i class="icon-ok"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item.isHidden %}
+                        <i class="icon-ok"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    <a onclick="return confirm('Вы действительно хотите удалить запись?')" class="btn btn-mini" href="{{ url('admin_product_delete', {'pk' : item.id}) }}"><i class="icon-remove"></i> Удалить</a>
+                    <a class="btn btn-mini" href="{{ url('admin_product_edit', {'pk' : item.id}) }}"><i class="icon-pencil"></i> Редактировать</a>
+                </td>
+
+            </tr>
+        {% endfor %}
+
+    </table>
+{% endblock %}

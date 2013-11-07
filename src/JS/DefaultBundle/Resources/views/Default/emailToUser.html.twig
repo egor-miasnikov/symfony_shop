@@ -1,0 +1,38 @@
+<h2>Уважаемый {{ name }},</h2>
+
+<p>Спасибо, что сделали заказ в нашем Интернет-магазине!</p>
+
+<h3>Вы заказали:</h3>
+<table>
+    <tr>
+        <th>#&nbsp;&nbsp;</th>
+        <th>Рюкзак&nbsp;&nbsp;</th>
+        <th>BYR&nbsp;&nbsp;</th>
+        <th>USD&nbsp;&nbsp;</th>
+        <th>RUB&nbsp;&nbsp;</th>
+    </tr>
+    {% set byr = 0 %}
+    {% set usd = 0 %}
+    {% set rub = 0 %}
+
+    {% for product in products  %}
+        {% set byr = byr + product.category.byrPrice %}
+        {% set usd = usd + product.category.usdPrice %}
+        {% set rub = rub + product.category.rubPrice%}
+        <tr>
+            <td>{{ loop.index }}&nbsp;</td>
+            <td>{{ product.category }}&nbsp;</td>
+            <td>{{ product.category.byrPrice }}&nbsp;</td>
+            <td>{{ product.category.usdPrice }}&nbsp;</td>
+            <td>{{ product.category.rubPrice }}&nbsp;</td>
+        </tr>
+    {% endfor %}
+    <tfoot>
+    <th></th>
+    <th>Итого&nbsp;</th>
+    <th>{{ byr }}&nbsp;</th>
+    <th>{{ usd }}&nbsp;</th>
+    <th>{{ rub }}&nbsp;</th>
+    </tfoot>
+<table>
+<p>В самое ближайшее время мы свяжемся с Вами для уточнения деталей Вашего заказа.</p>

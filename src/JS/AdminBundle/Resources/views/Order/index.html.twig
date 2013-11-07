@@ -1,0 +1,48 @@
+{% extends 'JSAdminBundle:Default:index.html.twig' %}
+{% block actions %}{% endblock %}
+{% block header %}
+    <h1>Список заказов</h1>
+{% endblock %}
+{% block list %}
+    <table class="table table-striped">
+        <tr>
+            <th>Дата заказа</th>
+            <th>Имя</th>
+            <th>Email</th>
+            <th>Телефон</th>
+            <th>Страна</th>
+            <th>Город</th>
+            <th>Адрес</th>
+            <th>Категория</th>
+            <th>Артикул</th>
+            <th>BYR</th>
+            <th>USD</th>
+            <th>RUB</th>
+            <th></th>
+
+        </tr>
+
+        {% for item in all %}
+            {% for product in item.products %}
+            <tr>
+                <td>{{ item.createdAt|date }}</td>
+                <td>{{ item.customerName }}</td>
+                <td><a href="mailto:{{ item.customerEmail }}">{{ item.customerEmail }}</a></td>
+                <td>{{ item.customerTelephone }}</td>
+                <td>{{ item.customerCountry }}</td>
+                <td>{{ item.customerCity }}</td>
+                <td>{{ item.customerAddress }}</td>
+                <td>{{ product.category }}</td>
+                <td>{{ product.article }}</td>
+                <td>{{ product.category.byrPrice }}</td>
+                <td>{{ product.category.usdPrice }}</td>
+                <td>{{ product.category.rubPrice }}</td>
+                <td>
+                    <a onclick="return confirm('Вы действительно хотите удалить запись?')" class="btn btn-mini" href="{{ url('admin_order_delete', {'pk' : item.id}) }}"><i class="icon-remove"></i> Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        {% endfor %}
+
+    </table>
+{% endblock %}

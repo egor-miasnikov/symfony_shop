@@ -1,0 +1,24 @@
+{% extends 'JSAdminBundle:Default:index.html.twig' %}
+{% block actions %}{% endblock %}
+{% block header %}
+    <h1>Список сообщений</h1>
+{% endblock %}
+{% block list %}
+    <table class="table table-striped">
+        <tr>
+            <th>Дата</th>
+            <th>Имя</th>
+            <th>Email</th>
+            <th>Сообщение</th>
+        </tr>
+
+        {% for item in all %}
+            <tr>
+                <td>{{ item.createdAt|date }}</td>
+                <td>{{ item.name }}</td>
+                <td><a href="mailto:{{ item.email }}">{{ item.email }}</a></td>
+                <td>{{ item.text }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

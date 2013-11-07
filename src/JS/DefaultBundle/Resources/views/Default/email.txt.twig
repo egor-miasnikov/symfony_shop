@@ -1,0 +1,6 @@
+Привет {{ name }}
+
+Вы заказали:
+{% for p in pr  %}
+    {{ loop.index }}: {{ p.category }}
+{% endfor %}

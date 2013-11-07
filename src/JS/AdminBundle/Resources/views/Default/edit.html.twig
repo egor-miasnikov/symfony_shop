@@ -1,0 +1,21 @@
+{% extends '::admin.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h1>Edit {{ entityName|trans }}</h1>
+    </div>
+
+    <div class="well form-actions">
+        <a href="{{ path(routePrefix ~ 'index') }}" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> Назад</a>
+    </div>
+
+    {% set action =  path(routePrefix ~'edit', {'pk': pk }) %}
+
+    <form class="form-horizontal" action="{{ action }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <div class="well form-actions">
+            <a href="{{ path(routePrefix ~ 'index') }}" class="btn">Отменить</a>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+    </form>
+{% endblock %}

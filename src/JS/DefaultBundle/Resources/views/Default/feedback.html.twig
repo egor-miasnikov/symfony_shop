@@ -1,0 +1,29 @@
+{% extends "JSDefaultBundle:Default:catalog.html.twig" %}
+{% block left_menu %}
+{% endblock %}
+{% block main %}
+    <div class="span80">
+        <div class="row pl2_5">
+            <h3 class="offset2">Обратная связь</h3>
+            <form class="offset2" action="{{ url('default_feedback') }}" method="post">
+                {{ form_errors(form) }}
+                <div class="row offset0">
+                    <div class="span20">{{ form_label(form.name) }}</div>
+                    <div class="span50">{{ form_widget(form.name) }}</div>
+                </div>
+                <div class="row offset0">
+                    <div class="span20">{{ form_label(form.email) }}</div>
+                    <div class="span50">{{ form_widget(form.email) }}</div>
+                </div>
+                <div class="row offset0">
+                    <div class="span20">{{ form_label(form.text) }}</div>
+                    <div class="span50">{{ form_widget(form.text) }}</div>
+                </div>
+                <div class="row offset0">
+                    <div class="span50">{{ form_widget(form.send,{'label': 'Отправить сообщение', 'attr': {'class': 'btn btn-primary'} }) }}</div>
+                </div>
+                {{ form_rest(form) }}
+            </form>
+        </div>
+    </div>
+{% endblock %}

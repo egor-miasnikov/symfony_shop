@@ -1,0 +1,104 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+    background-color: white;
+}
+
+.container {
+    /*    margin-bottom: 100px;*/
+}
+.p1{ padding: 10px;}
+th.admin_actions {
+    width: 200px;
+}
+
+th.admin_actions13 {
+    width: 130px;
+}
+
+.control-group .wrap_datetime select {
+    width: auto;
+    margin-right: 3px;
+    margin-left: 3px;
+}
+
+.control-group .wrap_datetime select:first-child {
+    margin-left: 0;
+}
+
+.control-group .wrap_datetime > div {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.control-group .controls .timefield select { width: auto; }
+
+.form-horizontal .control-group .lbl { display: inline-block; width: 50px; }
+.form-horizontal .control-group .controls.simple-text { padding-top: 5px; }
+
+.filterGroupOR {
+    margin-bottom: 10px;
+}
+.filterGroupOR:last-child  {
+    margin-bottom: 0;
+}
+.addOR {
+    margin-top: 10px;
+}
+.addOR a {
+    display: none;
+}
+.filterGroupAND .filterGroupOR:nth-last-child(1) .addOR a {
+    display: inline-block;
+}
+
+#formProto {
+    display: none;
+}
+.italic { font-style: italic; }
+
+.row .left .overview-scoring {
+    font-weight: bold;
+    font-size: 2em;
+}
+.row .left .text {
+    margin-right: 15px;
+}
+.mb1{margin-bottom: 10px;}
+.pt05{padding-top: 5px;}
+.ml2{ margin-left: 20px;}
+.ml3{ margin-left: 30px;}
+.ml0{ margin-left: 0;}
+.span68{width: 680px;}
+.span2{width: 20px;}
+.span12{width: 120px;}
+.span117{width: 1170px;}
+.span94{width: 940px;}
+.container-users {
+    width:1500px;
+    min-width: 1500px;
+    margin:auto;
+}
+td hr {
+    margin:0px;
+}
+.table.table-bordered.table-striped.span3  tr  td:nth-child(1) {
+    word-break: break-all;
+    width:130px;
+    min-width: 130px;
+}
+
+table.visits-table {
+    margin-left:50px;
+    width:35%;
+    float: left;
+}
+.choice-expand .control-group {margin-bottom: 0px;}
+.choice-expand .controls input[type="checkbox"] {margin-top: 7px;}
+.notice{background-color: #62c462 !important;}
+.error{background-color: #da4f49 !important;}
+.notice, .error{
+    font-size: 1.2em !important;
+    text-align: center !important;
+}
+.notice .jGrowl-message, .error .jGrowl-message{padding-top: 10px !important;}

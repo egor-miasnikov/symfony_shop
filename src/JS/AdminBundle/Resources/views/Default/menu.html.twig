@@ -1,0 +1,36 @@
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li class="{{ active == 'admin_home'  ? 'active' : '' }}">
+                        <a href="{{ url('admin_home')}}">Домашняя</a>
+                    </li>
+                    <li class="{{ active == 'admin_order'  ? 'active' : '' }}">
+                        <a href="{{ url('admin_order_index')}}">Заказы</a>
+                    </li>
+                    <li class="{{ active == 'admin_carusel'  ? 'active' : '' }}">
+                        <a href="{{ url('admin_carusel_index')}}">Слайдер</a>
+                    </li>
+                    <li class="{{ active == 'admin_product'  ? 'active' : '' }}">
+                        <a href="{{ url('admin_product_index') }}">Товары</a>
+                    </li>
+                    <li class="{{ active == 'admin_category'  ? 'active' : '' }}">
+                        <a href="{{ url('admin_category_index')}}">Категория</a>
+                    </li>
+                    <li class="{{ active == 'admin_article'  ? 'active' : '' }}">
+                        <a href="{{ url('admin_article_index') }}">Артикул</a>
+                    </li>
+                    <li class="{{ active == 'admin_feedback'  ? 'active' : '' }}">
+                        <a href="{{ url('admin_feedback_index') }}">Обратная связь</a>
+                    </li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+</div>

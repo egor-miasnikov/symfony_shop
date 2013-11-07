@@ -1,0 +1,136 @@
+{% extends '::admin.html.twig' %}
+{% block container %}
+<div class="container-users">
+{% block body %}
+
+    <div class="page-header">
+        {% block header %}
+                <h1>{{ entityName|trans }} {{ "List"|trans }}</h1>
+        {% endblock %}                
+    </div>
+    
+    {% block actions %}
+        <div class="well form-actions">    
+            <a href="{{ path(routePrefix ~ 'create') }}" class="btn btn-primary"><i class="icon-plus icon-white"></i> {{ "Create"|trans }}</a>   
+        </div>
+    {% endblock %}
+    
+
+    {{ afa.flash() }}
+
+<div class="row">
+        <div class="span12">
+            {% if (pager.hasResults) %}
+                
+                {% block list %}
+    <table class="table table-bordered table-striped" id="users-table">
+        <thead>
+            <tr >
+                <th colspan="7">{{'admin.users.user_info'|trans}}</th>
+                <th colspan="3">{{'topmenu.competitions'|trans }}</th>
+                <th colspan="3">{{ 'loyalty_points'|trans}}</th>
+                <th ></th>
+            </tr>
+            <tr>
+                <th>
+                    {{ afa.sort_href("first_name", "Name", filter.vars.value.sortField, filter.vars.value.sortOrder, "admin_user_index") }}
+                </th>
+                <th>
+                    {{ afa.sort_href("username", "Username", filter.vars.value.sortField, filter.vars.value.sortOrder, "admin_user_index") }}
+                </th>
+                <th>{{ "Registered"|trans }}</th>
+                <th>{{ "Age"|trans }}</th>
+                <th>
+                    {{ afa.sort_href("isEmailConfirmed", "Enabled", filter.vars.value.sortField, filter.vars.value.sortOrder, "admin_user_index") }}
+                </th>
+                <th>{{ "Team"|trans }}</th>
+                <th>
+                    {{ afa.sort_href("memberSince", "admin.user.start_membership_date", filter.vars.value.sortField, filter.vars.value.sortOrder, "admin_user_index") }}
+                </th>
+
+                <th>{{ "afa_admin_footballLeague_isEnable442"|trans }}</th>
+                <th>{{ "admin.menu.premonitions"|trans }}</th>
+                <th>{{ "armchair.widget.title"|trans }}</th>
+
+                <th>{{'touchpoints_earned'|trans }}</th>
+                <th>
+                    {{ afa.sort_href("teamsTouchPoints", "Premium Points", filter.vars.value.sortField, filter.vars.value.sortOrder, "admin_user_index") }}
+                </th>
+                <th>{{ "stars"|trans }}</th>
+                <th class="admin_actions" colspan="2"></th>
+            </tr>
+        </thead>
+        {% for item in pager.getResults %}
+            <tr>
+                <td class="word-br">{{ item.fullName }}</td>
+                <td class="word-br">{{ item.username }}</td>
+                <td>{{ item.createdAt|date('d.m.Y H:i:s') }}</td>
+                <td>{{ item.getAge() }}</td>
+                <td>
+                    {% if (item.isEmailConfirmed) %}
+                        <i class="icon-ok"></i>
+                    {% endif %}
+                </td>
+                <td>{{ item.getFanClub() }}</td>
+                <td>{{ item.memberSince ? item.memberSince|date('d.m.Y'): '' }}</td>
+                <td nowrap>
+                    {% for league,fantasyJoined in userCompetitions[item.id]['442'] ['joined'] %}
+                        <span>{{league}} </span>:<br/> <span>{{fantasyJoined}}</span>
+                        {% if not loop.last %} <hr></hr> {% endif %}
+                    {% endfor %}
+                </td>
+                <td nowrap>
+                    {% for league,premoJoined in userCompetitions[item.id]['premonitions'] ['joined'] %}                        
+                        <span>{{league}} </span>:<br/> <span>{{premoJoined}}</span>
+                        {% if not loop.last %} <hr></hr>{% endif %}
+                    {% endfor %}
+                </td>
+               <td nowrap>
+                    {% for league,armchairJoined in userCompetitions[item.id]['armchair'] ['joined']%}
+                        <span>{{league}} </span>:<br/> <span>{{armchairJoined}}</span>
+                        {% if not loop.last %} <hr></hr> {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ inGameMoney[item.id]['points']|number_format(0, ',')}}</td>
+                <td>{{ item.teamsTouchPoints|number_format(0, ',') }}</td>
+                <td>{{ inGameMoney[item.id]['stars']|number_format(0, ',') }}</td>
+                <td>
+                    <a onclick="return confirm('{{ 'confirmation'|trans }}')" class="btn btn-mini" href="{{ url('admin_user_delete', {'pk' : item.id}) }}"><i class="icon-remove"></i> {{ "delete"| trans }}</a>
+                    <a class="btn btn-mini" href="{{ url('admin_user_edit', {'pk' : item.id}) }}"><i class="icon-pencil"></i> {{ "edit"| trans }}</a>
+            {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}
+                <a  class="btn btn-mini"  href="{{ path('user_home', {_switch_user: item.username}) }}"><i class="icon-user"></i> {{ "switch"| trans }}</a>
+            {% endif %}                      
+                            </td>
+                        </tr>
+        {% endfor %}
+
+    </table>
+            {% endblock %}
+                    
+            {% else %}
+                <div class="alert">
+                    {{ 'No records found'|trans }}
+                </div>
+            {% endif %}
+        </div>
+
+        {% block filters %}
+            <div class="offset12 well">
+                <form class="form" action="{{ path(routePrefix ~ 'index') }}" method="POST" {{ form_enctype(filter) }}>
+                    {{ form_widget(filter) }}
+
+                    <center>
+                        {# {{<button type="reset" class="btn">{{ "Reset"|trans }}</button> }} #}
+                        <a href="{{ path(routePrefix ~ 'index', {'reset' : 1}) }}" class="btn">{{ "Reset"|trans }}</a>
+                        <button type="submit" class="btn btn-primary">{{ "Filter"|trans }}</button>
+                    </center>
+
+                </form>
+            </div>
+        {% endblock %}
+            
+    </div>
+{% endblock %}
+    {% include 'AFAPagerBundle:Pager:paginate.html.twig' with {'pager': pager} %}
+</div>
+{% endblock %}

@@ -1,0 +1,239 @@
+{% extends '::admin.html.twig' %}
+{% block container %}
+<div class="container" id="users-edit">
+    {% block body %}
+
+        <div class="page-header">
+            <h1>{{ "Edit"|trans }} {{ entityName|trans }}</h1>
+            {% if locale %}
+                <h5>Locale: {{locale}}</h5>
+            {% endif %}
+        </div>
+
+        {{ afa.flash() }}
+
+        <div class="well form-actions">
+            <a href="{{ path(routePrefix ~ 'index') }}" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> {{ "back"|trans }}</a>
+        </div>
+
+        {% block preForm %}
+            {# custom data #}
+        {% endblock %}
+
+        {% if locale %}
+            {% set action =  path(routePrefix ~'edit', {'pk': pk, 'locale' : locale}) %}
+        {% else %}
+            {% set action =  path(routePrefix ~'edit', {'pk': pk }) %}
+        {% endif %}
+        {% set atr = not is_granted('ROLE_SUPER_ADMIN')? {'attr' : {'disabled':'disabled' } }: {'attr' :{} }%}
+       <div id="{{ form.vars.id}}">
+        <form class="well form-horizontal" action="{{ action }}" method="post" {{ form_enctype(form) }}>
+             
+            <table class="table table-bordered table-striped span3" id="">      
+                <tbody>
+                {{ form_errors(form)}}  
+                <tr >
+                    <td >{{form_label(form.first_name)}}</td>
+                    <td>{{form_widget(form.first_name)}}</td>
+                </tr>
+                <tr >
+                    <td >{{form_label(form.last_name)}}</td>
+                    <td>{{form_widget(form.last_name) }}</td>
+                </tr>
+                <tr >
+                    <td>{{form_label(form.gender)}}</td>
+                    <td>{{form_widget(form.gender) }}</td>
+                </tr>
+                <tr class=""><td colspan="2"><br/></td></tr>
+                <tr >
+                    <td>{{form_label(form.date_of_birth)}}</td>
+                    <td>{{form_widget(form.date_of_birth) }}</td>
+                </tr>
+                <tr >
+                    <td>{{form_label(form.enabled)}}</td>
+                    <td>{{form_widget(form.enabled) }}</td>
+                </tr>
+                <tr >
+                    <td>{{'admin.menu.email'|trans}}</td>
+                    <td>{{entity.email}}</td>
+                </tr>
+                <tr class=""><td colspan="2"><br/></td></tr>
+                <tr class="">
+                    <td>{{form_label(form.address)}}</td>
+                    <td>{{form_widget(form.address) }}</td>
+                </tr>
+                <tr class=""><td colspan="2"><br/></td></tr>
+                <tr class="">
+                    <td>{{form_label(form.city)}}</td>
+                    <td>{{form_widget(form.city)}}</td>
+                </tr>
+                <tr class="">
+                    <td>{{form_label(form.state)}}</td>
+                    <td>{{form_widget(form.state)}}</td>
+                </tr>
+                <tr class="">
+                    <td>{{form_label(form.country_code)}}</td>
+                    <td>{{form_widget(form.country_code)}}</td>
+                </tr>
+                <tr class=""><td colspan="2"><br/></td></tr>
+                <tr class="">
+                    <td>{{form_label(form.preferred_language)}}</td>
+                    <td>{{form_widget(form.preferred_language)}}</td>
+                </tr>
+                <tr class=""><td colspan="2"><br/></td></tr>
+                <tr class="">
+                    <td>{{form_label(form.phoneMobile)}}</td>
+                    <td>{{form_widget(form.phoneMobile)}}</td>
+                </tr>
+                <tr class="">
+                    <td>{{form_label(form.roles)}}</td>
+                    <td>{{form_widget(form.roles, atr )}}</td>
+                </tr>
+                <tr class="">
+                    <td>{{form_label(form.managedClubs)}}</td>
+                    <td>{{form_widget(form.managedClubs, atr )}}</td>
+                </tr>
+                <tr class="">
+                    <td>{{form_label(form.isDefaultAdmin)}}</td>
+                    <td>{{form_widget(form.isDefaultAdmin, atr )}}</td>
+                </tr>
+                <tr class=""><td colspan="2"><br/></td></tr>
+                <tr class="">
+                    <td>{{'afa_admin_user_fanClub'|trans}}</td>
+                    <td>{{entity.fanClub }}</td>
+                </tr>
+                <tr class="">
+                    <td>{{form_label(form.seasonTicketHolder)}}</td>
+                    <td>{{form_widget(form.seasonTicketHolder)}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="table table-bordered table-striped span4" id="">      
+                <tbody>
+                <tr class="success">
+                    <td>{{ "admin.user.start_membership_date"|trans }}</td>
+                    <td>{{ entity.membershipStartDate ? entity.membershipStartDate|date('d.m.Y'): ''}}</td>
+                </tr>
+                  <tr class=""><td colspan="2"><br/></td></tr>  
+                <tr class="success">
+                    <td>
+                        {{ 'afa_admin_user_faceboook_linked'|trans }}
+                    </td>
+                    <td  class="ta_c">
+                        {%if socialAcs['facebook'] is not null %}
+                             <i class="icon-ok"></i>
+                        {% endif %}
+                    </td>
+                </tr>
+               <tr class="success">
+                    <td>
+                      {{ 'afa_admin_user_twitter_linked'|trans }}
+                    </td>
+                    <td  class="ta_c">
+                        {% if socialAcs['twitter'] is not null %}
+                             <i class="icon-ok"></i>
+                        {% endif %}
+                    </td>
+                </tr>
+                    </tbody>
+               </table>
+            <table class="table table-bordered table-striped span6" id="user-competitions">      
+                <tbody>
+                <thead>
+                    <th >{{'topmenu.competitions'|trans }}</th>
+                    <th>{{ 'afa_admin_user_joined_at' |trans }}</th>
+                    <th >{{ 'afa_admin_user_touchpoints_earned' |trans}}</th>
+                    <th >{{ 'afa_admin_user_touchpoints_used' |trans}}</th>
+                    <th>{{ "stars"|trans }}</th>
+                </thead>
+                {% for game, records in  userCompetitions %}
+                <tr>
+                    <td>{{records['name']}}:</td>
+                    <td nowrap>
+                    {% for league,Joined in records['joined']  %}
+                        <span>{{league}} </span>:<br/> <span>{{Joined}}</span>
+                        {% if not loop.last %} <hr></hr> {% endif %}
+                    {% endfor %}
+                    </td>
+                    <td class="ta_c">  
+                        <span>{{userPointsStars[game]['earned'] is defined? userPointsStars[game]['earned'] |number_format(0, ','): '-' }}</span>
+                    </td>
+                     <td class="ta_c">  
+                        <span>{{userPointsStars[game]['spent'] is defined? userPointsStars[game]['spent']|number_format(0, ',') : '-'}}</span>
+                    </td>
+                     <td class="ta_c">  
+                        <span>{{userPointsStars[game]['stars'] is defined? userPointsStars[game]['stars'] |number_format(0, ','): '-'}}</span>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            
+             <table class="table table-bordered table-striped span6" id="user-purchases">      
+                <tbody>
+                <thead>
+                    <tr>
+                        <th>{{'purchases'|trans|upper }}</th>
+                        <th rowspan="2">{{ 'afa_admin_user_purchases_num' |trans }}</th>
+                        <th rowspan="2">{{ 'profile.settings.purchase.cost' |trans}}</th>
+                        <th rowspan="2">{{ 'afa_admin_user_paid_money' |trans}}</th>
+                        <th rowspan="2">{{ "afa_admin_user_paid_credits"|trans }}</th>
+                        <th rowspan="1">{{ "date"|trans }}</th>
+                    </tr>
+                     <tr>
+                        <th >{{'afa_admin_user_purchases_item'|trans }}</th>
+                        <th><a href="#" class="btn btn-primary" onclick="return updateSaleHistory();"> {{ 'update' |trans }}</a></th>
+                    </tr>
+                </thead>
+                {% for sale in  purchaseHistory %}
+                <tr>
+                    <td>{{sale['name']}}</td>
+                    <td class="ta_c">
+                        <span>{{ sale['amount'] }}</span>
+                    </td>
+                     <td class="ta_c">  
+                        <span>{{ sale['priceCost'] }}</span>
+                    </td>
+                     <td class="ta_c">  
+                        <span>{{ sale['pricePaid'] }}</span>
+                    </td>
+                     <td  class="ta_c">  
+                        <span></span>
+                    </td>
+                     <td  class="ta_c">  
+                        <span>{{ sale['date'] }}</span>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="2">{{'total'|trans}}:</td>
+                    <td >{{ totalSpent}}</td>
+                    <td ></td>
+                    <td ></td>
+                    <td ></td>
+                </tr>
+                </tbody>
+            </table>
+            {{form_rest(form)}}
+            <div class="well form-actions">
+                <a href="{{ path(routePrefix ~ 'index') }}" class="btn">{{ "Cancel"|trans }}</a>
+                <button type="submit" class="btn btn-primary">{{ "Submit"|trans }}</button>
+                {% block editActions %}
+                    {# additional actions here #}
+                {% endblock %}
+            </div>
+        </form>
+    </div>
+        <script type="text/javascript">
+            function updateSaleHistory()
+            {
+                $.post('{{url('admin_user_sales_update', {'pk': pk}) }}', function(data) {
+                    if (data== true)
+                        document.location.reload(true);
+                });
+                return false;
+            }
+        </script>
+    {% endblock %}
+            </div>
+{% endblock %}

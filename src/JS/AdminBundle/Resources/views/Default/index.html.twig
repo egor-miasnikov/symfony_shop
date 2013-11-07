@@ -1,0 +1,29 @@
+{% extends '::admin.html.twig' %}
+{% block body %}
+
+    <div class="page-header">
+        {% block header %}
+        {% endblock %}                
+    </div>
+    
+    {% block actions %}
+        <div class="well form-actions">    
+            <a href="{{ path(routePrefix ~ 'create') }}" class="btn btn-primary"><i class="icon-plus icon-white"></i> Создать</a>
+        </div>
+    {% endblock %}
+    <div class="row">
+        <div class="span94">
+            {% if (all) %}
+                
+                {% block list %}
+                    <h1>DATA LIST</h1>
+                {% endblock %}
+                    
+            {% else %}
+                <div class="alert">
+                    Записей не найдено
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

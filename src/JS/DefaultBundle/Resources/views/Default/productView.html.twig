@@ -1,0 +1,71 @@
+{% extends "JSDefaultBundle:Default:catalog.html.twig" %}
+{% block main %}
+    <div class="span70 mt">
+    <div class="row">
+        <div class="span60">
+            <h2 class="en-text">{{ category.name|upper }}</h2>
+            <span style="font-size: 1.5em">Цена</span>
+            <span class="badge badge-success">{{ category.usdPrice }} USD</span>
+            <span class="badge badge-warning">{{ category.rubPrice }} RUB</span>
+            <span class="badge">{{ category.byrPrice }} BYR</span>
+        </div>
+    </div>
+    <div class="row mt">
+        <div class="span60">
+            <ul class="nav nav-tabs" id="product-features">
+                <li class="active"><a href="#discription" data-toggle="tab">Описание</a></li>
+                <li><a href="#features" data-toggle="tab" >Характеристики</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="discription">
+                    {{ category.description }}
+                </div>
+                <div class="tab-pane" id="features">
+                    <ul>
+                        {% if category.isNotebook %}
+                            <li>Отделение для ноутбука {{ category.notebookSize }} "</li>
+                        {% endif %}
+                        <li>Размеры: {{ category.size }} см.</li>
+                        <li>{{ category.material }}</li>
+                        <li>Вместимость: {{ category.capacity }}</li>
+                        <li>Вес: {{ category.weight }} г.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <script>
+                $(function () {
+                    $('#product-features a').click(function (e) {
+                        e.preventDefault();
+                        $(this).tab('show');
+                    })
+                })
+            </script>
+        </div>
+    </div>
+    <div class="row mt">
+        {% for product in category.products if not product.isHidden %}
+            <div class="span30 center">
+                <a href="{{ asset(public~product.image) }}" rel="lightbox[gallery{{ product.id }}]"><img class="h30" src="{{ asset(public~product.image) }}" alt="image {{ product.id }}" /></a>
+                <a href="#" onclick="addCart({{ product.id }}); return false;" class="btn btn-large btn-success mt mb">В корзину</a>
+            </div>
+
+        {% endfor %}
+    </div>
+    </div>
+    <script type="text/javascript">
+        function addCart(id)
+        {
+            $.post("{{ url('default_add_cart') }}",{
+                        'id': id
+                    },function(data){
+                        if(data)
+                        {
+                            $.jGrowl("Товар добавлен в корзину",{theme: 'notice'});
+                            $('.cart-counter span').html(data);
+                        }
+            });
+        }
+    </script>
+{% endblock %}

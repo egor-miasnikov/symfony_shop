@@ -1,0 +1,26 @@
+{% extends '::admin.html.twig' %}
+{% block menu %}
+{% endblock %}
+{% block body %}
+    <div style="text-align: center">
+        <div class="page-header">
+            <h1><img src="{{ asset(public~'images/js_logo_main.png') }}"></h1>
+        </div>
+        {% if error %}
+            <div class="row alert-error mb1 p1">{{ error.message }}</div>
+        {% endif %}
+        <form action="{{ path('login_check') }}" method="post">
+            <div>
+                <label for="username">Пользователь</label>
+                <input type="text" id="username" name="_username" value="{{ last_username }}" />
+            </div>
+            <div>
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="_password" />
+            </div>
+            <div>
+                <button class="btn btn-large btn-primary" type="submit">Войти</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,7 @@
+parameters:
+#    js_default.example.class: JS\DefaultBundle\Example
+
+services:
+#    js_default.example:
+#        class: %js_default.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

@@ -1,0 +1,26 @@
+{% extends "::base.html.twig" %}
+{% block content %}
+    <div class="row bg-body">
+        {% block left_menu %}
+            <div class="span20 mt">
+                {{ render(controller('JSDefaultBundle:Default:leftMenu')) }}
+            </div>
+        {% endblock %}
+        {% block main %}
+            <div class="span70 mt">
+                <div class="row">
+                    {% for category in categories if category.products | length %}
+                        <div class="span30 center">
+                            <a href="{{ url('default_view_product',{ 'slug': category.slug }) }}">
+                                {% for product in category.products if product.isMain %}
+                                    <img class="h30" src="{{ asset(public~product.image) }}">
+                                    <h3 class="category-title center en-text">{{ category.name }}</h3>
+                                {% endfor %}
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endblock %}
+    </div>
+{% endblock %}

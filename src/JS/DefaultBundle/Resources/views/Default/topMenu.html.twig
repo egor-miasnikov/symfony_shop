@@ -1,0 +1,19 @@
+<div class="main-menu">
+    <ul class="nav inline">
+        <li class="offset1 menu-item"><a href="{{ url('default_catalog') }}">Каталог</a></li>
+        <li class="offset1 menu-item"><a href="{{ url('default_sale_places') }}">Где купить</a></li>
+        <li class="offset1 menu-item"><a href="{{ url('default_delivery') }}">Доставка</a></li>
+        <li class="offset1 menu-item"><a href="{{ url('default_warranty') }}">Гарантия</a></li>
+        <li class="offset1 menu-item">
+            <a href="{{ url('default_view_cart') }}">
+                <i class="i"></i> Корзина
+                <span class="cart-counter">
+                    <img src="{{ asset(public~"images/bag_icon.png") }}"/>
+                    <span>{{ app.session.get('js_product')|length }}</span>
+                </span>
+            </a>
+        </li>
+    </ul>
+
+    <hr />
+</div>
